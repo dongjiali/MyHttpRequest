@@ -7,14 +7,16 @@
 //
 
 #import "AppDelegate.h"
-
+#import "RequestViewController.h"
 @implementation AppDelegate
-
+@synthesize myCache;
 - (void)dealloc
 {
+    [myCache release];
     [_window release];
     [super dealloc];
 }
+
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -22,7 +24,31 @@
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
+    RequestViewController *rootViewController = [[RequestViewController alloc]init];
+    self.window.rootViewController = rootViewController;
+    [rootViewController release];
+    [self getProjectInfo];
+    //设置调用网络缓存
+    ASIDownloadCache *cache = [[ASIDownloadCache alloc] init];
+    self.myCache = cache;
+    [cache release];
+    
+    //设置缓存路径
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentDirectory = [paths objectAtIndex:0];
+    [self.myCache setStoragePath:[documentDirectory stringByAppendingPathComponent:@"resource"]];
+    [self.myCache setDefaultCachePolicy:ASIOnlyLoadIfNotCachedCachePolicy];
     return YES;
+}
+
+- (void)getProjectInfo
+{
+    NSLocalizedString(@"ABCEFG", nil);
+    NSString *executableFile = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleExecutableKey];
+    NSLog(@"＃＃＃＃＃＃＃＃%@",executableFile);
+    
+    NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:(NSString *)kCFBundleVersionKey];
+    NSLog(@"￥￥￥￥￥￥￥￥%@",version);
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application

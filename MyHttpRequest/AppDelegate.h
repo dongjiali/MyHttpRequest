@@ -7,9 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ASIDownloadCache.h"
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-
+{
+    
+    ASIDownloadCache *myCache;
+}
+@property (nonatomic,retain) ASIDownloadCache *myCache;
 @property (strong, nonatomic) UIWindow *window;
 
 @end
